@@ -1264,7 +1264,7 @@ done
 
 fi
 
-if [ pilih == 24 ] ; then
+if [ pilih == '24' ] ; then
 
 #!/bin/bash
 
