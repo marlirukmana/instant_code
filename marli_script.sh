@@ -1264,8 +1264,9 @@ done
 
 fi
 
-if [ $pilih == '24' ] ; then
 
+if [ $pilih == '24' ] ; then
+	
 #!/bin/bash
 
 # Function to add nameserver to /etc/resolv.conf
@@ -1318,7 +1319,6 @@ while true; do
         *) echo "Invalid option. Please select 1, 2, 3, or 4." ;;
     esac
 done
-
 
 
 fi
