@@ -1199,12 +1199,7 @@ add_rule() {
     iptables -t nat -A POSTROUTING -j MASQUERADE
 
     echo "Saving iptables rules..."
-    if command -v iptables-persistent > /dev/null 2>&1; then
-        netfilter-persistent save
-    else
-        apt-get update && apt-get install -y iptables-persistent
-        netfilter-persistent save
-    fi
+    iptables-save > /etc/iptables/rules.v4  # Save IPv4 rules
 
     echo "Port forwarding setup complete."
 }
@@ -1242,6 +1237,9 @@ delete_rule() {
 
     echo "Updated DNAT rules (PREROUTING chain):"
     iptables -t nat -L PREROUTING -n -v --line-numbers
+
+    echo "Saving iptables rules..."
+    iptables-save > /etc/iptables/rules.v4  # Save IPv4 rules
 }
 
 # Main menu
@@ -1260,6 +1258,7 @@ while true; do
         *) echo "Invalid option. Please select 1, 2, 3, or 4." ;;
     esac
 done
+
 
 
 fi
