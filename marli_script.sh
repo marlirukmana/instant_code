@@ -1268,63 +1268,57 @@ if [ pilih == 24 ] ; then
 
 #!/bin/bash
 
-# Function to add DNS record
-add_dns() {
-    read -p "Enter the DNS record name: " record_name
-    read -p "Enter the DNS record type (e.g., A, CNAME): " record_type
-    read -p "Enter the DNS record value: " record_value
+# Function to add nameserver to /etc/resolv.conf
+add_nameserver() {
+    local nameserver="$1"
 
-    nsupdate << EOF
-server DNS_SERVER_IP
-zone DOMAIN_NAME
-update add $record_name 3600 $record_type $record_value
-send
-EOF
-
-    echo "DNS record added successfully."
+    # Check if the nameserver already exists in resolv.conf
+    if grep -q "^nameserver $nameserver" /etc/resolv.conf; then
+        echo "Nameserver $nameserver already exists in /etc/resolv.conf."
+    else
+        echo "Adding nameserver $nameserver to /etc/resolv.conf..."
+        echo "nameserver $nameserver" >> /etc/resolv.conf
+        echo "Nameserver added successfully."
+    fi
 }
 
-# Function to view DNS records
-view_dns() {
-    nsupdate << EOF
-server DNS_SERVER_IP
-zone DOMAIN_NAME
-show
-send
-EOF
+# Function to view nameservers in /etc/resolv.conf
+view_nameservers() {
+    echo "Nameservers in /etc/resolv.conf:"
+    grep "^nameserver" /etc/resolv.conf
 }
 
-# Function to delete DNS record
-delete_dns() {
-    read -p "Enter the DNS record name to delete: " record_name
-    read -p "Enter the DNS record type to delete (e.g., A, CNAME): " record_type
+# Function to delete nameserver from /etc/resolv.conf
+delete_nameserver() {
+    local nameserver="$1"
 
-    nsupdate << EOF
-server DNS_SERVER_IP
-zone DOMAIN_NAME
-update delete $record_name $record_type
-send
-EOF
-
-    echo "DNS record deleted successfully."
+    # Check if the nameserver exists in resolv.conf
+    if grep -q "^nameserver $nameserver" /etc/resolv.conf; then
+        echo "Deleting nameserver $nameserver from /etc/resolv.conf..."
+        sed -i "/^nameserver $nameserver/d" /etc/resolv.conf
+        echo "Nameserver deleted successfully."
+    else
+        echo "Nameserver $nameserver does not exist in /etc/resolv.conf."
+    fi
 }
 
 # Main menu
 while true; do
-    echo "1) Add DNS record"
-    echo "2) View DNS records"
-    echo "3) Delete DNS record"
+    echo "1) Add nameserver to /etc/resolv.conf"
+    echo "2) View nameservers in /etc/resolv.conf"
+    echo "3) Delete nameserver from /etc/resolv.conf"
     echo "4) Exit"
     read -p "Select an option: " option
 
     case $option in
-        1) add_dns ;;
-        2) view_dns ;;
-        3) delete_dns ;;
+        1) read -p "Enter the nameserver to add: " ns_add; add_nameserver "$ns_add" ;;
+        2) view_nameservers ;;
+        3) read -p "Enter the nameserver to delete: " ns_del; delete_nameserver "$ns_del" ;;
         4) exit ;;
         *) echo "Invalid option. Please select 1, 2, 3, or 4." ;;
     esac
 done
+
 
 
 fi
