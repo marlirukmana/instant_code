@@ -26,6 +26,7 @@ echo  '     '20. Install Driver TP-LINK Archer T4U
 echo  '     '21. Install PI-HOLE
 echo  '     '22. Install INSTALL CLOUDFLARE DOH
 echo  '     '23. Port Forwading Client to Public
+echo  '     '24. DNS Editor
 echo  $(tput setaf 3)
 echo  '     'h. Help
 echo  $(tput setaf 1)
@@ -1259,6 +1260,71 @@ while true; do
     esac
 done
 
+
+
+fi
+
+if [ pilih == 24 ] ; then
+
+#!/bin/bash
+
+# Function to add DNS record
+add_dns() {
+    read -p "Enter the DNS record name: " record_name
+    read -p "Enter the DNS record type (e.g., A, CNAME): " record_type
+    read -p "Enter the DNS record value: " record_value
+
+    nsupdate << EOF
+server DNS_SERVER_IP
+zone DOMAIN_NAME
+update add $record_name 3600 $record_type $record_value
+send
+EOF
+
+    echo "DNS record added successfully."
+}
+
+# Function to view DNS records
+view_dns() {
+    nsupdate << EOF
+server DNS_SERVER_IP
+zone DOMAIN_NAME
+show
+send
+EOF
+}
+
+# Function to delete DNS record
+delete_dns() {
+    read -p "Enter the DNS record name to delete: " record_name
+    read -p "Enter the DNS record type to delete (e.g., A, CNAME): " record_type
+
+    nsupdate << EOF
+server DNS_SERVER_IP
+zone DOMAIN_NAME
+update delete $record_name $record_type
+send
+EOF
+
+    echo "DNS record deleted successfully."
+}
+
+# Main menu
+while true; do
+    echo "1) Add DNS record"
+    echo "2) View DNS records"
+    echo "3) Delete DNS record"
+    echo "4) Exit"
+    read -p "Select an option: " option
+
+    case $option in
+        1) add_dns ;;
+        2) view_dns ;;
+        3) delete_dns ;;
+        4) exit ;;
+        *) echo "Invalid option. Please select 1, 2, 3, or 4." ;;
+    esac
+done
 
 
 fi
