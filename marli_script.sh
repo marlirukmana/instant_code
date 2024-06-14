@@ -29,6 +29,7 @@ echo  '     '23. Port Forwading Client to Public
 echo  '     '24. DNS Editor
 echo  '     '25. Node.js 20 LTS
 echo  '     '26. Meshcentral2
+echo  '     '27. Auto Install Docker + Docker-Compose
 echo  $(tput setaf 3)
 echo  '     'h. Help
 echo  $(tput setaf 1)
@@ -1349,6 +1350,16 @@ echo 'node node_modules/meshcentral --cert servername.domain.com'
 echo 'node node_modules/meshcentral --cert hostname.domain.com'
 echo 'node node_modules/meshcentral --cert 1.2.3.4'
 echo 'Note: To run MeshCentral as a service, run it using --install argument. Once running, start a web browser and access MeshCentral application with respective URL.'
+
+fi
+
+if [ $pilih == '27' ] ; then
+	
+apt-get update -y
+apt-get install nano perl wget curl -y
+curl -sSL https://get.docker.com | sh
+sudo usermod -aG docker $(whoami)
+apt  install docker-compose
 
 fi
 
