@@ -27,6 +27,7 @@ echo  '     '21. Install PI-HOLE
 echo  '     '22. Install INSTALL CLOUDFLARE DOH
 echo  '     '23. Port Forwading Client to Public
 echo  '     '24. DNS Editor
+echo  '     '25. Node.js 20 LTS
 echo  $(tput setaf 3)
 echo  '     'h. Help
 echo  $(tput setaf 1)
@@ -1320,6 +1321,20 @@ while true; do
     esac
 done
 
+
+fi
+
+if [ $pilih == '25' ] ; then
+	
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt update
+sudo apt install -y nodejs
+echo vrifu version node -v npm -v
 
 fi
 
