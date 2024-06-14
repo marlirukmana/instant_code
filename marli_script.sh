@@ -28,6 +28,7 @@ echo  '     '22. Install INSTALL CLOUDFLARE DOH
 echo  '     '23. Port Forwading Client to Public
 echo  '     '24. DNS Editor
 echo  '     '25. Node.js 20 LTS
+echo  '     '26. Meshcentral2
 echo  $(tput setaf 3)
 echo  '     'h. Help
 echo  $(tput setaf 1)
@@ -1334,7 +1335,20 @@ NODE_MAJOR=20
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 sudo apt update
 sudo apt install -y nodejs
-echo vrifu version node -v npm -v
+echo 'verify version node -v npm -v'
+
+fi
+
+if [ $pilih == '26' ] ; then
+	
+mkdir meshcentral
+cd meshcentral
+npm install meshcentral
+echo 'to run please use' 
+echo 'node node_modules/meshcentral --cert servername.domain.com'
+echo 'node node_modules/meshcentral --cert hostname.domain.com'
+echo 'node node_modules/meshcentral --cert 1.2.3.4'
+echo 'Note: To run MeshCentral as a service, run it using --install argument. Once running, start a web browser and access MeshCentral application with respective URL.'
 
 fi
 
