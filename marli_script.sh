@@ -1360,7 +1360,7 @@ apt-get update -y
 apt-get install nano perl wget curl -y
 curl -sSL https://get.docker.com | sh
 sudo usermod -aG docker $(whoami)
-apt  install docker-compose
+apt  install docker-compose -y
 
 fi
 
