@@ -30,7 +30,7 @@ echo  '     '24. DNS Editor
 echo  '     '25. Node.js 20 LTS
 echo  '     '26. Meshcentral2
 echo  '     '27. Auto Install Docker + Docker-Compose
-echo  '     '28. Disable Port 53 For Ubuntu 
+echo  '     '28. Disable Port 53 For Ubuntu (Auto Reboot)
 echo  $(tput setaf 3)
 echo  '     'h. Help
 echo  $(tput setaf 1)
