@@ -20,7 +20,7 @@ echo  '     '14. Install X-UI VMESS,VLESS,SHADOWSOCKS,etc
 echo  '     '15. Make Certificate cert and key
 echo  '     '16. Install Softether VPN SSLVPN+OVPN+L2TP+IPSEC+VPN OVER DNS
 echo  '     '17. Install SSL/TLS Tunnel
-echo  '     '18. Install Docker '&' Docker Compose
+echo  '     '18. Install Docker '&' Docker Compose 20.0.4
 echo  '     '19. Install Wireguard NAT UBUNTU 22.0.4
 echo  '     '20. Install Driver TP-LINK Archer T4U
 echo  '     '21. Install PI-HOLE
@@ -30,6 +30,7 @@ echo  '     '24. DNS Editor
 echo  '     '25. Node.js 20 LTS
 echo  '     '26. Meshcentral2
 echo  '     '27. Auto Install Docker + Docker-Compose
+echo  '     '28. Disable Port 53 For Ubuntu 
 echo  $(tput setaf 3)
 echo  '     'h. Help
 echo  $(tput setaf 1)
@@ -1363,6 +1364,14 @@ apt  install docker-compose
 
 fi
 
+if [ $pilih == '28' ] ; then
+	
+sudo ss -ltn
+echo "DNSStubListener=no" >> /etc/systemd/resolved.conf
+sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+reboot
+
+fi
 if [ $pilih == 'h' ] ; then
 	
 	clear
