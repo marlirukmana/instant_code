@@ -1346,6 +1346,7 @@ if [ $pilih == '26' ] ; then
 mkdir meshcentral
 cd meshcentral
 npm install meshcentral
+echo '--------------------------------------------------------------------------------------'
 echo 'to run please use' 
 echo 'node node_modules/meshcentral --cert servername.domain.com'
 echo 'node node_modules/meshcentral --cert hostname.domain.com'
