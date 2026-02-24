@@ -24,7 +24,7 @@ echo  '     '18. Install Docker '&' Docker Compose 20.0.4
 echo  '     '19. Install Wireguard NAT UBUNTU 22.0.4
 echo  '     '20. Install Driver TP-LINK Archer T4U
 echo  '     '21. Install PI-HOLE
-echo  '     '22. Install INSTALL CLOUDFLARE DOH
+echo  '     '22. Install INSTALL CLOUDFLARE DOH (deprecated by cloudflare)/ DNS-Over-HTTPS using dnscrypt-proxy
 echo  '     '23. Port Forwading Client to Public
 echo  '     '24. DNS Editor
 echo  '     '25. Node.js 20 LTS
@@ -1144,18 +1144,43 @@ fi
 
 if [ $pilih == '22' ] ; then
 
-	wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-	sudo apt-get install ./cloudflared-linux-amd64.deb
-	cloudflared -v
-	echo making startup doh
-	sudo useradd -s /usr/sbin/nologin -r -M cloudflared
-	echo -e "# Commandline args for cloudflared, using Cloudflare DNS\nCLOUDFLARED_OPTS=--port 5053 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query" | sudo tee /etc/default/cloudflared > /dev/null
-	sudo chown cloudflared:cloudflared /etc/default/cloudflared
-	sudo chown cloudflared:cloudflared /usr/local/bin/cloudflared
-	echo -e "[Unit]\nDescription=cloudflared DNS over HTTPS proxy\nAfter=syslog.target network-online.target\n\n[Service]\nType=simple\nUser=cloudflared\nEnvironmentFile=/etc/default/cloudflared\nExecStart=/usr/local/bin/cloudflared proxy-dns \$CLOUDFLARED_OPTS\nRestart=on-failure\nRestartSec=10\nKillMode=process\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/cloudflared.service > /dev/null
-	sudo systemctl enable cloudflared
-	sudo systemctl start cloudflared
-	sudo systemctl status cloudflared
+	# wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+	# sudo apt-get install ./cloudflared-linux-amd64.deb
+	# cloudflared -v
+	# echo making startup doh
+	# sudo useradd -s /usr/sbin/nologin -r -M cloudflared
+	# echo -e "# Commandline args for cloudflared, using Cloudflare DNS\nCLOUDFLARED_OPTS=--port 5053 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query" | sudo tee /etc/default/cloudflared > /dev/null
+	# sudo chown cloudflared:cloudflared /etc/default/cloudflared
+	# sudo chown cloudflared:cloudflared /usr/local/bin/cloudflared
+	# echo -e "[Unit]\nDescription=cloudflared DNS over HTTPS proxy\nAfter=syslog.target network-online.target\n\n[Service]\nType=simple\nUser=cloudflared\nEnvironmentFile=/etc/default/cloudflared\nExecStart=/usr/local/bin/cloudflared proxy-dns \$CLOUDFLARED_OPTS\nRestart=on-failure\nRestartSec=10\nKillMode=process\n\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/cloudflared.service > /dev/null
+	# sudo systemctl enable cloudflared
+	# sudo systemctl start cloudflared
+	# sudo systemctl status cloudflared
+
+	sudo apt install dnscrypt-proxy
+	
+	echo "[+] Create systemd override directory..."
+	sudo mkdir -p /etc/systemd/system/dnscrypt-proxy.socket.d/
+
+	echo "[+] Write override.conf..."
+	cat <<'EOC' | sudo tee /etc/systemd/system/dnscrypt-proxy.socket.d/override.conf > /dev/null
+	[Socket]
+	ListenStream=
+	ListenDatagram=
+	ListenStream=127.0.0.1:5053
+	ListenDatagram=127.0.0.1:5053
+	EOC
+
+	echo "[+] Reload systemd..."
+	sudo systemctl daemon-reload
+
+	echo "[+] Restart dnscrypt services..."
+	sudo systemctl restart dnscrypt-proxy.socket
+	sudo systemctl restart dnscrypt-proxy
+
+	echo "[✓] Done. Checking port 5053..."
+	ss -lntup | grep 5053 || echo "❌ ERROR: Port 5053 not listening"
+	
 	dig @127.0.0.1 -p 5053 google.com
 	echo input these dns on your pihole 127.0.0.1#5053
 fi
@@ -1404,4 +1429,5 @@ if [ $pilih == 'x' ] ; then
 	exit
 
 fi
+
 
