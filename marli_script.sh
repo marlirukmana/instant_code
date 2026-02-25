@@ -24,7 +24,7 @@ echo  '     '18. Install Docker '&' Docker Compose 20.0.4
 echo  '     '19. Install Wireguard NAT UBUNTU 22.0.4
 echo  '     '20. Install Driver TP-LINK Archer T4U
 echo  '     '21. Install PI-HOLE
-echo  '     '22. Install INSTALL CLOUDFLARE DOH (deprecated by cloudflare)/ DNS-Over-HTTPS using dnscrypt-proxy
+echo  '     '22. Install INSTALL CLOUDFLARE DOH (deprecated by cloudflare) or DNS-Over-HTTPS using dnscrypt-proxy
 echo  '     '23. Port Forwading Client to Public
 echo  '     '24. DNS Editor
 echo  '     '25. Node.js 20 LTS
@@ -1429,5 +1429,6 @@ if [ $pilih == 'x' ] ; then
 	exit
 
 fi
+
 
 
