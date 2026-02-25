@@ -1163,13 +1163,13 @@ if [ $pilih == '22' ] ; then
 	sudo mkdir -p /etc/systemd/system/dnscrypt-proxy.socket.d/
 
 	echo "[+] Write override.conf..."
-	sudo tee /etc/systemd/system/dnscrypt-proxy.socket.d/override.conf > /dev/null <<'EOC'
-	[Socket]
-	ListenStream=
-	ListenDatagram=
-	ListenStream=127.0.0.1:5053
-	ListenDatagram=127.0.0.1:5053
-	EOC
+    sudo bash -c 'cat > /etc/systemd/system/dnscrypt-proxy.socket.d/override.conf <<EOF
+[Socket]
+ListenStream=
+ListenDatagram=
+ListenStream=127.0.0.1:5053
+ListenDatagram=127.0.0.1:5053
+EOF'
 
 	echo "[+] Reload systemd..."
 	sudo systemctl daemon-reload
@@ -1429,6 +1429,7 @@ if [ $pilih == 'x' ] ; then
 	exit
 
 fi
+
 
 
 
