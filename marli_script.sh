@@ -20,7 +20,7 @@ echo  '     '14. Install X-UI VMESS,VLESS,SHADOWSOCKS,etc
 echo  '     '15. Make Certificate cert and key
 echo  '     '16. Install Softether VPN SSLVPN+OVPN+L2TP+IPSEC+VPN OVER DNS
 echo  '     '17. Install SSL/TLS Tunnel
-echo  '     '18. Install Docker '&' Docker Compose 20.0.4
+echo  '     '18. Install Docker '&' Docker Compose 20.0.4/latest
 echo  '     '19. Install Wireguard NAT UBUNTU 22.0.4
 echo  '     '20. Install Driver TP-LINK Archer T4U
 echo  '     '21. Install PI-HOLE
