@@ -1111,6 +1111,7 @@ if [ $pilih == '18' ] ; then
 	# docker-compose --version
 	# sudo docker run hello-world
 
+	clear
 	sudo apt update
 	sudo apt install -y ca-certificates curl gnupg lsb-release
 	sudo install -m 0755 -d /etc/apt/keyrings
